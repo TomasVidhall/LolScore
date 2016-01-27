@@ -14,7 +14,6 @@ var {
   TouchableNativeFeedback,
 } = React;
 
-const Constants = require('../Constants');
 
 var StandingsRow = React.createClass({
   render : function(){
@@ -35,7 +34,7 @@ var StandingsRow = React.createClass({
           <View style={styles.row}>
             <Text style={styles.rank}>{this.props.record.rank}.</Text>
             <Image
-              source={Constants.teamImages[this.props.team.acronym]}
+              source={this.props.team.logo}
               style={styles.thumbnail}
               resizeMode={Image.resizeMode.contain}
 

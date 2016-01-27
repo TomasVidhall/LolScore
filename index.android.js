@@ -19,6 +19,8 @@ var {
 var LeagueGrid = require('./components/LeagueGrid');
 var LeagueShow = require('./components/LeagueShow');
 var TeamShow = require('./components/TeamShow');
+var LeagueToolbar = require('./components/LeagueToolbar');
+
 
 var _navigator;
 BackAndroid.addEventListener('hardwareBackPress', () => {
@@ -35,7 +37,7 @@ var RouteMapper = function(route, navigationOperations, onComponentRef){
     return(
         <View style={styles.container}>
           <ToolbarAndroid
-          title="League of Legends"
+          logo = {require("./images/lol_logo.png")}
           style ={styles.toolbar}
           />
 
@@ -47,17 +49,13 @@ var RouteMapper = function(route, navigationOperations, onComponentRef){
     console.log("ROUTE league");
     return(
       <View style={styles.container}>
-        <ToolbarAndroid
-          title={route.league.name}
-          titleColor ='white'
-          actions={[]}
-          style ={styles.toolbar}
-          logo={{uri : route.league.logoUrl}}
-
-
+        <LeagueToolbar
+          league = {route.league}
+          navigator = {navigationOperations}
         />
         <LeagueShow navigator = {navigationOperations}
         league={route.league}/>
+
       </View>
       );
   }
@@ -70,7 +68,7 @@ var RouteMapper = function(route, navigationOperations, onComponentRef){
           titleColor ='white'
           actions={[]}
           style ={styles.toolbar}
-          logo={{uri : route.team.logoUrl}}
+          logo={route.team.logo}
         />
         <TeamShow navigator = {navigationOperations}
         team = {route.team}
@@ -114,7 +112,7 @@ var styles = StyleSheet.create({
   },
   toolbar:{
     height: 50,
-    backgroundColor: 'black',
+    backgroundColor: '#e9eaed',
   }
 });
 

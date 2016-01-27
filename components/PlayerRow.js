@@ -36,16 +36,22 @@ var PlayerRow = React.createClass({
 
             />
             <Image
-                source={Constants.playerImages[""+this.props.player.name]}
+                source={this.props.player.logo}
                 style={styles.thumbnail}
                 resizeMode={Image.resizeMode.contain}
 
                 />
-            <Text style={styles.name}>
-              {this.props.player.firstName}
-              <Text style={styles.alias}> {this.props.player.name} </Text>
-               {this.props.player.lastName}
-            </Text>
+            <View style={styles.container}>
+              <Text style={styles.name}>
+                {this.props.player.firstName}
+              </Text>
+              <Text style={styles.alias}>
+                {this.props.player.name}
+              </Text>
+              <Text style={styles.name}>
+                 {this.props.player.lastName}
+              </Text>
+            </View>
 
         </View>
       </TouchableElement>
@@ -90,6 +96,11 @@ var styles = StyleSheet.create({
   },
   role:{
     color:'green',
+  },
+  container:{
+    flex:1,
+    justifyContent : 'center',
+    alignItems : 'center'
   }
 
 

@@ -43,7 +43,6 @@ var Standings = React.createClass({
   },
 
   selectTeam : function(team){
-    console.log(team);
     this.props.navigator.push({
         title : team.name,
         name : 'team',

@@ -13,9 +13,12 @@ var {
 } = React;
 
 const API_URL = "http://api.lolesports.com/api/v1/leagues?slug=";
+const Constants = require('../Constants');
 
 var Standings = require('./Standings');
 var LoadingBar = require('./LoadingBar');
+var ScrollableTabView = require('react-native-scrollable-tab-view');
+var Schedule = require('./Schedule');
 
 var LeagueShow = React.createClass({
 
@@ -43,7 +46,16 @@ var LeagueShow = React.createClass({
         for(var i = 0; i < responseData.highlanderTournaments.length; i++){
           var tour = responseData.highlanderTournaments[i];
           tour.records = [];
+          for(var key in tour.brackets){
+            var bracket = tour.brackets[key];
+            if(bracket.name = "regular_season"){
+              tour.bracket = bracket;
+            }
+            console.log(bracket);
+          }
+
           tournaments[tour.id] = tour;
+
           if(!latestTournament || !latestTournament.startDate ||
              tour.startDate > latestTournament.startDate ){
             latestTournament = tour;
@@ -58,6 +70,7 @@ var LeagueShow = React.createClass({
 
         for(var i = 0; i < responseData.teams.length; i++){
           var team = responseData.teams[i];
+          team.logo = Constants.teamImages[team.acronym];
           teams[team.id] = team;
         }
         this.setState({
@@ -75,15 +88,31 @@ var LeagueShow = React.createClass({
   render: function() {
     if(this.state.loaded){
       return (
-          <ScrollView>
+
+        <ScrollableTabView
+          style={styles.container}
+          tabBarUnderlineColor ="black"
+          tabBarBackgroundColor = "#e9eaed"
+        >
+          <View tabLabel="Standings" style={styles.container}>
             <Standings
+                navigator = {this.props.navigator}
+                records = {this.state.tournament.records}
+                teams = {this.state.teams}
+                rosters = {this.state.tournament.rosters}
+                tournament = {this.state.tournament}
+            />
+          </View>
+          <View tabLabel="Schedule" style={styles.container}>
+            <Schedule
               navigator = {this.props.navigator}
-              records = {this.state.tournament.records}
               teams = {this.state.teams}
               rosters = {this.state.tournament.rosters}
               tournament = {this.state.tournament}
             />
-          </ScrollView>
+          </View>
+        </ScrollableTabView>
+
       );
     }
     else{

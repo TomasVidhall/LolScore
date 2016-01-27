@@ -12,6 +12,7 @@ var {
 } = React;
 
 const API_URL = "http://api.lolesports.com/api/v1/teams";
+const Constants = require('../Constants');
 var LoadingBar = require('./LoadingBar');
 var PlayerRow = require('./PlayerRow');
 
@@ -83,6 +84,13 @@ var TeamShow = React.createClass({
         for(var i = 0; i < responseData.players.length; i++){
           var player = responseData.players[i];
           setPlayerRole(player);
+          if(Constants.playerImages[""+player.name]){
+            player.logo = Constants.playerImages[""+player.name];
+          }
+          else{
+            player.logo = require('../images/players/empty.png');
+          }
+
           if(this.props.team.starters.indexOf(player.id) != -1){
             starters.push(player);
           }
